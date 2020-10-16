@@ -1,6 +1,7 @@
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import servlet.CalculateServlet;
+import servlet.Echarts;
 import servlet.HelloServlet;
 //服务器的基本配置文件
 public class MiniprogramServer {
@@ -18,8 +19,10 @@ public class MiniprogramServer {
             context.setResourceBase("web"); // 指定根目录
             server.setHandler(context);
             //差不多就是服务器端所部署的服务
+            //也就是api接口的问题
             context.addServlet(HelloServlet.class, "/hello");
             context.addServlet(CalculateServlet.class,"/calc");
+            context.addServlet(Echarts.class,"/echarts");
 
             server.start();
             server.join();

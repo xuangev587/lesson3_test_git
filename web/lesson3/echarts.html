@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id='main' style="height: 500px;width: 100%"></div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+<script>
+    getRemoteData()
+
+    function getRemoteData() {
+        var url = "http://localhost:8888/echarts";
+        // 请求远程数据
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                chartinit(result.xData, result.yData);
+                // 显示在页面上
+
+            },
+            error: function (result) {
+                console.log("error" + JSON.stringify(result));
+            }
+        })
+    }
+
+    function chartinit(xData, yData) {
+        // 基于准备号的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var option = {
+            xAxis: {
+                type: 'category',
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: xData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                // data: [120, 200, 150, 80, 70, 110, 130],
+                data: yData,
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(220, 220, 220, 0.8)'
+                }
+            }]
+        };
+        myChart.setOption(option)
+    }
+</script>
+</html>
